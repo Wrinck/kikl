@@ -1,7 +1,19 @@
 import { prisma } from "@/lib/db";
-import { extendUser, toggleBlock, deleteSubAdmin } from "../actions";
-import ConfirmButton from "@/components/ConfirmButton";
+import { deleteSubAdmin, extendUser, toggleBlock } from "../actions";
+import { ActionButton, SubmitButton } from "@/components/admin/form-controls";
+import { IconBan, IconTrash, IconUnlock, IconUsers } from "@/components/admin/icons";
+import { EmptyState, PageHeader, Panel, StatusBadge } from "@/components/admin/ui";
+import { formatDate, isoDate } from "@/lib/format";
+import { pickCurrentSub } from "@/lib/subscription";
 
+/**
+ * Пользователи. Прежняя логика экшенов сохранена (extendUser / toggleBlock /
+ * deleteSubAdmin), но:
+ *  - вместо `user.subscriptions[0]` без сортировки — единый селектор текущей
+ *    подписки (тот же порядок, что используют экшены: активная → самая поздняя);
+ *  - deleteSubAdmin больше не вызывается через bind(): id идёт скрытым полём;
+ *  - добавлены пустое состояние и pending-кнопки.
+ */
 export default async function AdminUsersPage() {
   const users = await prisma.user.findMany({
     include: { subscriptions: { include: { plan: true } } },
@@ -9,74 +21,109 @@ export default async function AdminUsersPage() {
   });
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Пользователи</h1>
+    <div className="ad-stack ad-fade">
+      <PageHeader
+        title="Пользователи"
+        subtitle={`${users.length} аккаунтов · продление и блокировка влияют на Marzban`}
+      />
 
-      <div className="bg-white dark:bg-gray-900 rounded-xl border shadow-sm divide-y">
-        {users.map((user) => {
-          const sub = user.subscriptions[0];
-          return (
-            <div key={user.id} className="p-5 flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <p className="font-medium">
-                  {user.email}{" "}
-                  {user.role === "ADMIN" && (
-                    <span className="text-xs bg-gray-900 text-white px-2 py-0.5 rounded-full">admin</span>
-                  )}
-                </p>
-                {sub ? (
-                  <p className="text-sm text-gray-500 dark:text-gray-400 dark:text-gray-500 mt-1">
-                    Тариф: {sub.plan.name} · Статус:{" "}
-                    <span className={sub.status === "ACTIVE" ? "text-green-600" : "text-red-600"}>
-                      {sub.status}
-                    </span>{" "}
-                    · До: {sub.expiresAt ? sub.expiresAt.toLocaleDateString("ru-RU") : "—"}
-                    {sub.marzbanUsername && (
-                      <span className="ml-2 font-mono text-xs text-gray-400">
-                        ({sub.marzbanUsername})
-                      </span>
+      {users.length === 0 ? (
+        <Panel>
+          <EmptyState
+            icon={<IconUsers size={28} />}
+            title="Пользователей пока нет"
+            text="Регистрации из кабинета появятся в этом списке."
+          />
+        </Panel>
+      ) : (
+        <Panel>
+          <ul className="ad-list">
+            {users.map((user) => {
+              const sub = pickCurrentSub(user.subscriptions);
+
+              return (
+                <li key={user.id} className="ad-user-row">
+                  <div style={{ minWidth: 0 }}>
+                    <p className="ad-cell-title">
+                      {user.email}{" "}
+                      {user.role === "ADMIN" && <span className="ad-tag">admin</span>}
+                    </p>
+                    {sub ? (
+                      <p className="ad-cell-meta">
+                        Тариф: {sub.plan.name} · До{" "}
+                        <time dateTime={isoDate(sub.expiresAt)}>{formatDate(sub.expiresAt)}</time>
+                        {sub.marzbanUsername ? (
+                          <span className="ad-mono"> ({sub.marzbanUsername})</span>
+                        ) : null}
+                      </p>
+                    ) : (
+                      <p className="ad-cell-meta">Нет подписки</p>
                     )}
-                  </p>
-                ) : (
-                  <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">Нет подписки</p>
-                )}
-              </div>
+                  </div>
 
-              {sub && (
-                <div className="flex flex-wrap items-center gap-2">
-                  <form action={extendUser} className="flex items-center gap-2">
-                    <input type="hidden" name="userId" value={user.id} />
-                    <input
-                      name="days"
-                      type="number"
-                      defaultValue={30}
-                      className="w-20 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-md px-2 py-1 text-sm"
-                    />
-                    <button className="bg-blue-600 text-white px-3 py-1 rounded-md text-sm hover:bg-blue-700">
-                      Продлить
-                    </button>
-                  </form>
+                  <div className="ad-actions">
+                    {sub ? <StatusBadge status={sub.status} /> : null}
 
-                  <form action={toggleBlock}>
-                    <input type="hidden" name="userId" value={user.id} />
-                    <button className="bg-yellow-500 text-white px-3 py-1 rounded-md text-sm hover:bg-yellow-600">
-                      {sub.status === "ACTIVE" ? "Заблокировать" : "Разблокировать"}
-                    </button>
-                  </form>
+                    {sub ? (
+                      <>
+                        {/* Продление: форма с days + скрытым userId (поля те же, что раньше). */}
+                        <form action={extendUser} className="ad-inline-form">
+                          <input type="hidden" name="userId" value={user.id} />
+                          {/* id подписки из строки списка — продлеваем именно её */}
+                          <input type="hidden" name="subId" value={sub.id} />
+                          <label className="ad-sr-only" htmlFor={`days-${user.id}`}>
+                            Дней продления
+                          </label>
+                          <input
+                            id={`days-${user.id}`}
+                            name="days"
+                            type="number"
+                            min={1}
+                            max={3650}
+                            defaultValue={30}
+                            className="ad-input ad-input-sm ad-input-w"
+                          />
+                          <SubmitButton size="sm" variant="ad-btn-primary">
+                            Продлить
+                          </SubmitButton>
+                        </form>
 
-                  <ConfirmButton
-                    action={deleteSubAdmin.bind(null, user.id)}
-                    confirmText="Удалить подписку пользователя? VPN-пользователь будет удалён с сервера."
-                    className="bg-red-600 text-white px-3 py-1 rounded-md text-sm hover:bg-red-700"
-                  >
-                    Удалить
-                  </ConfirmButton>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+                        <ActionButton
+                          action={toggleBlock}
+                          fieldName="userId"
+                          fieldValue={user.id}
+                          extraFields={{ subId: sub.id }}
+                          confirmText={
+                            sub.status === "ACTIVE"
+                              ? "Заблокировать доступ пользователю на VPN-сервере?"
+                              : "Снять блокировку и вернуть доступ?"
+                          }
+                          variant={sub.status === "ACTIVE" ? "ad-btn-warn" : "ad-btn-good"}
+                          icon={
+                            sub.status === "ACTIVE" ? <IconBan size={14} /> : <IconUnlock size={14} />
+                          }
+                          label={sub.status === "ACTIVE" ? "Заблокировать" : "Разблокировать"}
+                        />
+
+                        <ActionButton
+                          action={deleteSubAdmin}
+                          fieldName="userId"
+                          fieldValue={user.id}
+                          extraFields={{ subId: sub.id }}
+                          confirmText="Удалить подписку пользователя? VPN-пользователь будет удалён с сервера."
+                          variant="ad-btn-danger"
+                          icon={<IconTrash size={14} />}
+                          label="Удалить"
+                        />
+                      </>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </Panel>
+      )}
     </div>
   );
 }
