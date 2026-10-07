@@ -36,4 +36,14 @@
 - Перед сдачей страницы — прогнать `frontend-design-skills/checklist.md`.
 - Создать новый скилл → `agent-skills/skill-creator/SKILL.md`.
 
+## Контекст проекта (найдено при аудите 2026-10-08)
+
+- В `/workspace` есть только `src/app/admin/**` (7 файлов, 571 строка): Next.js App Router админка VPN-сервиса
+  (Gerlio / Marzban, Prisma, рубли хранятся в копейках). Остальной проект отсутствует: нет `package.json`,
+  `tsconfig.json`, `next.config.*`, `prisma/schema.prisma`, `src/lib/*`, `src/components/*`; README = `# kikl`.
+  → перед рефакторингом нужно восстановить полный проект, иначе правки unverifiable.
+- Отчёт об аудите: `docs/audit-admin-pages.md` (P0: CSRF/origin + throw вместо silent return, zod-валидация
+  экшенов, убрать `catch {}`, `$transaction`, danger-zone для `resetAllStats`).
+- Известный баг разметки: `src/app/admin/users/page.tsx:27` — два конфликтующих `dark:` на одном элементе.
+
 Дата изучения: 2026-10-08
