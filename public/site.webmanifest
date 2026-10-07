@@ -1,0 +1,16 @@
+{
+  "name": "Gerlio VPN Shop",
+  "short_name": "Gerlio",
+  "description": "Быстрый и безопасный VPN",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
