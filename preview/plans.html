@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Тарифы — Админ-панель (liquid glass preview)</title>
+<link rel="stylesheet" href="assets/admin.css" />
+</head>
+<body>
+<div class="ad-root">
+  <header class="ad-header">
+    <div class="ad-header-in">
+      <div class="ad-header-start">
+        <a class="ad-brand" href="index.html">
+          <span class="ad-brand-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19a9 9 0 1 1 16 0" /><path d="M12 19l3.5-5.5" /><circle cx="12" cy="19" r="1" /></svg></span>
+          Админ-панель
+        </a>
+        <nav class="ad-nav" aria-label="Разделы админки">
+          <a class="ad-navlink" href="index.html">Обзор</a>
+          <a class="ad-navlink is-active" href="plans.html" aria-current="page">Тарифы</a>
+          <a class="ad-navlink" href="users.html">Пользователи</a>
+          <a class="ad-navlink" href="payments.html">Платежи</a>
+        </nav>
+      </div>
+      <div class="ad-header-end">
+        <button type="button" class="ad-btn ad-btn-icon ad-btn-sm theme-toggle"
+                aria-label="Включить тёмную тему" aria-pressed="false">
+          <span class="i-moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" /></svg></span>
+          <span class="i-sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6" /></svg></span>
+        </button>
+        <a class="ad-back" href="#"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5" /><path d="m11 6-6 6 6 6" /></svg>В кабинет</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="ad-main">
+    <div class="ad-stack ad-fade">
+      <div class="ad-row">
+        <div style="min-width:0">
+          <h1 class="ad-h1">Тарифы и цены</h1>
+          <p class="ad-sub">Изменения сразу видны пользователям в кабинете</p>
+        </div>
+      </div>
+
+      <section class="ad-panel">
+    <div class="ad-panel-head">
+      <div style="min-width:0">
+        <h2 class="ad-h2 ad-panel-head-t"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5Z" /><path d="m3 13 9 5 9-5" /></svg>Действующие тарифы</h2>
+        <p class="ad-sub">Цена в рублях хранится в копейках</p>
+      </div>
+    </div>
+        <ul class="ad-plan-list">
+        <li class="ad-plan-item">
+          <form class="ad-form-grid" data-msg="Готово: тариф сохранён">
+            <input type="hidden" name="id" value="1" />
+    <div class="ad-field ad-span-2">
+      <label class="ad-label" for="plan-name-1">Название</label>
+      <input id="plan-name-1" name="name" class="ad-input" value="1 Месяц / 100 ГБ" maxlength="60" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-price-1">Цена, ₽</label>
+      <input id="plan-price-1" name="price" class="ad-input" type="number" min="0" step="1" value="499" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-days-1">Дней</label>
+      <input id="plan-days-1" name="durationDays" class="ad-input" type="number" min="1" max="3650" value="30" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-traffic-1">Трафик, ГБ</label>
+      <input id="plan-traffic-1" name="trafficGb" class="ad-input" type="number" min="0" max="100000" value="100" />
+      <p id="plan-traffic-1-hint" style="font-size:12px;color:var(--ink-subtle);margin:0">0 — безлимит</p>
+    </div>
+            <div class="ad-plan-side">
+              <label class="ad-check" for="plan-active-1">
+                <input id="plan-active-1" name="isActive" type="checkbox" checked /> Активен
+              </label>
+              <p class="ad-cell-meta">В базе: 499 ₽ · 100 ГБ</p>
+            </div>
+            <div class="ad-actions">
+              <button type="submit" class="ad-btn ad-btn-sm ad-btn-primary">
+                <span class="ad-spin" aria-hidden="true"></span>Сохранить
+              </button>
+            </div>
+          </form>
+<form class="ad-inline-form" data-msg="Готово: тариф удалён" data-confirm="Удалить тариф? Если он уже используется в подписках или платежах — он будет просто деактивирован."><button type="submit" class="ad-btn ad-btn-sm ad-btn-danger"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>Удалить</button></form>
+        </li>
+        <li class="ad-plan-item">
+          <form class="ad-form-grid" data-msg="Готово: тариф сохранён">
+            <input type="hidden" name="id" value="2" />
+    <div class="ad-field ad-span-2">
+      <label class="ad-label" for="plan-name-2">Название</label>
+      <input id="plan-name-2" name="name" class="ad-input" value="3 Месяца / Безлимит" maxlength="60" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-price-2">Цена, ₽</label>
+      <input id="plan-price-2" name="price" class="ad-input" type="number" min="0" step="1" value="1499" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-days-2">Дней</label>
+      <input id="plan-days-2" name="durationDays" class="ad-input" type="number" min="1" max="3650" value="90" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-traffic-2">Трафик, ГБ</label>
+      <input id="plan-traffic-2" name="trafficGb" class="ad-input" type="number" min="0" max="100000" value="0" />
+      <p id="plan-traffic-2-hint" style="font-size:12px;color:var(--ink-subtle);margin:0">0 — безлимит</p>
+    </div>
+            <div class="ad-plan-side">
+              <label class="ad-check" for="plan-active-2">
+                <input id="plan-active-2" name="isActive" type="checkbox" checked /> Активен
+              </label>
+              <p class="ad-cell-meta">В базе: 1 499 ₽ · ∞</p>
+            </div>
+            <div class="ad-actions">
+              <button type="submit" class="ad-btn ad-btn-sm ad-btn-primary">
+                <span class="ad-spin" aria-hidden="true"></span>Сохранить
+              </button>
+            </div>
+          </form>
+<form class="ad-inline-form" data-msg="Готово: тариф удалён" data-confirm="Удалить тариф? Если он уже используется в подписках или платежах — он будет просто деактивирован."><button type="submit" class="ad-btn ad-btn-sm ad-btn-danger"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>Удалить</button></form>
+        </li>
+        <li class="ad-plan-item">
+          <form class="ad-form-grid" data-msg="Готово: тариф сохранён">
+            <input type="hidden" name="id" value="3" />
+    <div class="ad-field ad-span-2">
+      <label class="ad-label" for="plan-name-3">Название</label>
+      <input id="plan-name-3" name="name" class="ad-input" value="6 Месяцев / Безлимит" maxlength="60" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-price-3">Цена, ₽</label>
+      <input id="plan-price-3" name="price" class="ad-input" type="number" min="0" step="1" value="2490" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-days-3">Дней</label>
+      <input id="plan-days-3" name="durationDays" class="ad-input" type="number" min="1" max="3650" value="180" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-traffic-3">Трафик, ГБ</label>
+      <input id="plan-traffic-3" name="trafficGb" class="ad-input" type="number" min="0" max="100000" value="0" />
+      <p id="plan-traffic-3-hint" style="font-size:12px;color:var(--ink-subtle);margin:0">0 — безлимит</p>
+    </div>
+            <div class="ad-plan-side">
+              <label class="ad-check" for="plan-active-3">
+                <input id="plan-active-3" name="isActive" type="checkbox" checked /> Активен
+              </label>
+              <p class="ad-cell-meta">В базе: 2 490 ₽ · ∞</p>
+            </div>
+            <div class="ad-actions">
+              <button type="submit" class="ad-btn ad-btn-sm ad-btn-primary">
+                <span class="ad-spin" aria-hidden="true"></span>Сохранить
+              </button>
+            </div>
+          </form>
+<form class="ad-inline-form" data-msg="Готово: тариф удалён" data-confirm="Удалить тариф? Если он уже используется в подписках или платежах — он будет просто деактивирован."><button type="submit" class="ad-btn ad-btn-sm ad-btn-danger"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>Удалить</button></form>
+        </li>
+        <li class="ad-plan-item">
+          <form class="ad-form-grid" data-msg="Готово: тариф сохранён">
+            <input type="hidden" name="id" value="4" />
+    <div class="ad-field ad-span-2">
+      <label class="ad-label" for="plan-name-4">Название</label>
+      <input id="plan-name-4" name="name" class="ad-input" value="12 Месяцев / Безлимит" maxlength="60" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-price-4">Цена, ₽</label>
+      <input id="plan-price-4" name="price" class="ad-input" type="number" min="0" step="1" value="4490" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-days-4">Дней</label>
+      <input id="plan-days-4" name="durationDays" class="ad-input" type="number" min="1" max="3650" value="365" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="plan-traffic-4">Трафик, ГБ</label>
+      <input id="plan-traffic-4" name="trafficGb" class="ad-input" type="number" min="0" max="100000" value="0" />
+      <p id="plan-traffic-4-hint" style="font-size:12px;color:var(--ink-subtle);margin:0">0 — безлимит</p>
+    </div>
+            <div class="ad-plan-side">
+              <label class="ad-check" for="plan-active-4">
+                <input id="plan-active-4" name="isActive" type="checkbox" /> Активен
+              </label>
+              <p class="ad-cell-meta">В базе: 4 490 ₽ · ∞</p>
+            </div>
+            <div class="ad-actions">
+              <button type="submit" class="ad-btn ad-btn-sm ad-btn-primary">
+                <span class="ad-spin" aria-hidden="true"></span>Сохранить
+              </button>
+            </div>
+          </form>
+<form class="ad-inline-form" data-msg="Готово: тариф удалён" data-confirm="Удалить тариф? Если он уже используется в подписках или платежах — он будет просто деактивирован."><button type="submit" class="ad-btn ad-btn-sm ad-btn-danger"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>Удалить</button></form>
+        </li>
+        </ul>
+      </section>
+
+      <section class="ad-panel">
+    <div class="ad-panel-head">
+      <div style="min-width:0">
+        <h2 class="ad-h2 ad-panel-head-t"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>Новый тариф</h2>
+        <p class="ad-sub">Заполните и добавьте в список</p>
+      </div>
+    </div>
+        <form class="ad-panel-pad ad-form-grid" data-msg="Готово: тариф добавлен">
+    <div class="ad-field ad-span-2">
+      <label class="ad-label" for="new-plan-name">Название</label>
+      <input id="new-plan-name" name="name" class="ad-input" placeholder="3 Месяца / Безлимит" maxlength="60" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="new-plan-price">Цена, ₽</label>
+      <input id="new-plan-price" name="price" class="ad-input" type="number" min="0" step="1" placeholder="499" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="new-plan-days">Дней</label>
+      <input id="new-plan-days" name="durationDays" class="ad-input" type="number" min="1" max="3650" placeholder="90" required />
+    </div>
+    <div class="ad-field">
+      <label class="ad-label" for="new-plan-traffic">Трафик, ГБ</label>
+      <input id="new-plan-traffic" name="trafficGb" class="ad-input" type="number" min="0" max="100000" placeholder="0" />
+      <p id="new-plan-traffic-hint" style="font-size:12px;color:var(--ink-subtle);margin:0">0 — безлимит</p>
+    </div>
+          <div class="ad-actions">
+            <button type="submit" class="ad-btn ad-btn-good">
+              <span class="ad-spin" aria-hidden="true"></span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>Добавить тариф
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- ActionToast: в проде появляется из ?msg=; здесь — после «отправки» формы -->
+  <div class="ad-toast" id="toast" role="status" aria-live="polite" hidden>
+    <span class="ad-toast-icon"></span><span class="ad-toast-text"></span>
+  </div>
+
+  <!-- ConfirmButton: в проде window.confirm(); здесь стеклянная карточка -->
+  <div class="ad-confirm" id="confirm" role="dialog" aria-modal="true"
+       aria-labelledby="confirm-text" hidden>
+    <div class="ad-confirm-card">
+      <p class="ad-confirm-text" id="confirm-text"></p>
+      <div class="ad-confirm-actions">
+        <button type="button" class="ad-btn ad-btn-ghost" data-role="cancel">Отмена</button>
+        <button type="button" class="ad-btn ad-btn-primary" data-role="ok">Подтвердить</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/preview.js"></script>
+</body>
+</html>

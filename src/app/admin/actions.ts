@@ -96,12 +96,15 @@ export async function extendUser(formData: FormData): Promise<ActionResult> {
 
   const userId = formNumber(formData, "userId", { min: 1 });
   const days = formNumber(formData, "days", { fallback: 30, min: 1, max: 3650 });
+  // subId приходит скрытым полём формы: продлеваем ровно ту подписку, которая
+  // показана админу в списке (раньше форма не отправляла id подписки).
+  const subId = formNumber(formData, "subId", { min: 1 });
 
   if (!userId) return { error: "Не указан пользователь." };
   if (!days) return { error: "Укажите срок продления: от 1 до 3650 дней." };
 
   const sub = await prisma.subscription.findFirst({
-    where: { userId },
+    where: subId ? { id: subId, userId } : { userId },
     orderBy: { expiresAt: "desc" },
   });
   if (!sub?.marzbanUsername) {
@@ -131,10 +134,11 @@ export async function toggleBlock(formData: FormData): Promise<ActionResult> {
   await requireAdmin();
 
   const userId = formNumber(formData, "userId", { min: 1 });
-  if (!userId) return { error: "Не указан пользователь." };
+  if (!userId) return { error: "Не указан пользователь." };"
+  const subId = formNumber(formData, "subId", { min: 1 });
 
   const sub = await prisma.subscription.findFirst({
-    where: { userId },
+    where: subId ? { id: subId, userId } : { userId },
     orderBy: { expiresAt: "desc" },
   });
   if (!sub?.marzbanUsername) {
@@ -162,14 +166,17 @@ export async function toggleBlock(formData: FormData): Promise<ActionResult> {
 }
 
 /** Удалить подписку пользователя (и VPN-аккаунт на сервере). */
-export async function deleteSubAdmin(userId: number): Promise<ActionResult> {
+export async function deleteSubAdmin(userId: number, formData?: FormData): Promise<ActionResult> {
   await requireAdmin();
 
   const cleanUserId = Number.isInteger(userId) && userId > 0 ? userId : null;
   if (!cleanUserId) return { error: "Некорректный идентификатор пользователя." };
 
+  // subId необязателен: без него работает ровно как раньше (последняя подписка).
+  const cleanSubId = formNumber(formData ?? new FormData(), "subId", { min: 1 });
+
   const sub = await prisma.subscription.findFirst({
-    where: { userId: cleanUserId },
+    where: cleanSubId ? { id: cleanSubId, userId: cleanUserId } : { userId: cleanUserId },
     orderBy: { expiresAt: "desc" },
   });
   if (!sub) return { error: "Подписка не найдена — возможно, она уже удалена." };

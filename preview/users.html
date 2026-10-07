@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Пользователи — Админ-панель (liquid glass preview)</title>
+<link rel="stylesheet" href="assets/admin.css" />
+</head>
+<body>
+<div class="ad-root">
+  <header class="ad-header">
+    <div class="ad-header-in">
+      <div class="ad-header-start">
+        <a class="ad-brand" href="index.html">
+          <span class="ad-brand-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19a9 9 0 1 1 16 0" /><path d="M12 19l3.5-5.5" /><circle cx="12" cy="19" r="1" /></svg></span>
+          Админ-панель
+        </a>
+        <nav class="ad-nav" aria-label="Разделы админки">
+          <a class="ad-navlink" href="index.html">Обзор</a>
+          <a class="ad-navlink" href="plans.html">Тарифы</a>
+          <a class="ad-navlink is-active" href="users.html" aria-current="page">Пользователи</a>
+          <a class="ad-navlink" href="payments.html">Платежи</a>
+        </nav>
+      </div>
+      <div class="ad-header-end">
+        <button type="button" class="ad-btn ad-btn-icon ad-btn-sm theme-toggle"
+                aria-label="Включить тёмную тему" aria-pressed="false">
+          <span class="i-moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" /></svg></span>
+          <span class="i-sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6" /></svg></span>
+        </button>
+        <a class="ad-back" href="#"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5" /><path d="m11 6-6 6 6 6" /></svg>В кабинет</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="ad-main">
+    <div class="ad-stack ad-fade">
+      <div class="ad-row">
+        <div style="min-width:0">
+          <h1 class="ad-h1">Пользователи</h1>
+          <p class="ad-sub">6 аккаунтов · продление и блокировка влияют на Marzban</p>
+        </div>
+      </div>
+
+      <section class="ad-panel">
+        <ul class="ad-list">
+      <li class="ad-user-row">
+        <div style="min-width:0">
+          <p class="ad-cell-title">admin@vpn.local <span class="ad-tag">admin</span></p>
+          <p class="ad-cell-meta">Нет подписки</p>
+        </div>
+
+      </li>
+      <li class="ad-user-row">
+        <div style="min-width:0">
+          <p class="ad-cell-title">marina.t@icloud.com </p>
+          <p class="ad-cell-meta">Тариф: 3 Месяца / Безлимит · До <time datetime="2027-01-10">10 янв. 2027</time> <span class="ad-mono">(marz_m_tanaka)</span></p>
+        </div>
+      <div class="ad-actions">
+        <span class="ad-badge ad-badge-good">Активна</span>
+        <form class="ad-inline-form" data-msg="Готово: подписка продлена"><label class="ad-sr-only" for="days-2">Дней продления</label><input id="days-2" name="days" class="ad-input ad-input-sm ad-input-w" type="number" min="1" max="3650" value="30" /><button type="submit" class="ad-btn ad-btn-sm ad-btn-primary"><span class="ad-spin" aria-hidden="true"></span>Продлить</button></form>
+        <form class="ad-inline-form" data-msg="Готово: доступ заблокирован" data-confirm="Заблокировать доступ пользователю на VPN-сервере?"><button type="submit" class="ad-btn ad-btn-sm ad-btn-warn"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M5.6 5.6l12.8 12.8" /></svg>Заблокировать</button></form>
+        <form class="ad-inline-form" data-msg="Готово: подписка удалена" data-confirm="Удалить подписку пользователя? VPN-пользователь будет удалён с сервера."><button type="submit" class="ad-btn ad-btn-sm ad-btn-danger"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>Удалить</button></form>
+      </div>
+      </li>
+      <li class="ad-user-row">
+        <div style="min-width:0">
+          <p class="ad-cell-title">lena.kovaleva@gmail.com </p>
+          <p class="ad-cell-meta">Тариф: 1 Месяц / 100 ГБ · До <time datetime="2026-10-10">10 окт. 2026</time> <span class="ad-mono">(marz_l_kovaleva)</span></p>
+        </div>
+      <div class="ad-actions">
+        <span class="ad-badge ad-badge-good">Активна</span>
+        <form class="ad-inline-form" data-msg="Готово: подписка продлена"><label class="ad-sr-only" for="days-3">Дней продления</label><input id="days-3" name="days" class="ad-input ad-input-sm ad-input-w" type="number" min="1" max="3650" value="30" /><button type="submit" class="ad-btn ad-btn-sm ad-btn-primary"><span class="ad-spin" aria-hidden="true"></span>Продлить</button></form>
+        <form class="ad-inline-form" data-msg="Готово: доступ заблокирован" data-confirm="Заблокировать доступ пользователю на VPN-сервере?"><button type="submit" class="ad-btn ad-btn-sm ad-btn-warn"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M5.6 5.6l12.8 12.8" /></svg>Заблокировать</button></form>
+        <form class="ad-inline-form" data-msg="Готово: подписка удалена" data-confirm="Удалить подписку пользователя? VPN-пользователь будет удалён с сервера."><button type="submit" class="ad-btn ad-btn-sm ad-btn-danger"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>Удалить</button></form>
+      </div>
+      </li>
+      <li class="ad-user-row">
+        <div style="min-width:0">
+          <p class="ad-cell-title">denis.kroha@list.ru </p>
+          <p class="ad-cell-meta">Тариф: 1 Месяц / 100 ГБ · До <time datetime="2026-10-05">05 окт. 2026</time> <span class="ad-mono">(marz_d_kroha)</span></p>
+        </div>
+      <div class="ad-actions">
+        <span class="ad-badge ad-badge-neutral">Истекла</span>
+        <form class="ad-inline-form" data-msg="Готово: подписка продлена"><label class="ad-sr-only" for="days-4">Дней продления</label><input id="days-4" name="days" class="ad-input ad-input-sm ad-input-w" type="number" min="1" max="3650" value="30" /><button type="submit" class="ad-btn ad-btn-sm ad-btn-primary"><span class="ad-spin" aria-hidden="true"></span>Продлить</button></form>
+        <form class="ad-inline-form" data-msg="Готово: доступ возвращён" data-confirm="Снять блокировку и вернуть доступ?"><button type="submit" class="ad-btn ad-btn-sm ad-btn-good"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 7.5-2" /></svg>Разблокировать</button></form>
+        <form class="ad-inline-form" data-msg="Готово: подписка удалена" data-confirm="Удалить подписку пользователя? VPN-пользователь будет удалён с сервера."><button type="submit" class="ad-btn ad-btn-sm ad-btn-danger"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>Удалить</button></form>
+      </div>
+      </li>
+      <li class="ad-user-row">
+        <div style="min-width:0">
+          <p class="ad-cell-title">olga.mironova@gmail.com </p>
+          <p class="ad-cell-meta">Тариф: 6 Месяцев / Безлимит · До <time datetime="2027-04-04">04 апр. 2027</time> <span class="ad-mono">(marz_o_mironova)</span></p>
+        </div>
+      <div class="ad-actions">
+        <span class="ad-badge ad-badge-good">Активна</span>
+        <form class="ad-inline-form" data-msg="Готово: подписка продлена"><label class="ad-sr-only" for="days-5">Дней продления</label><input id="days-5" name="days" class="ad-input ad-input-sm ad-input-w" type="number" min="1" max="3650" value="30" /><button type="submit" class="ad-btn ad-btn-sm ad-btn-primary"><span class="ad-spin" aria-hidden="true"></span>Продлить</button></form>
+        <form class="ad-inline-form" data-msg="Готово: доступ заблокирован" data-confirm="Заблокировать доступ пользователю на VPN-сервере?"><button type="submit" class="ad-btn ad-btn-sm ad-btn-warn"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M5.6 5.6l12.8 12.8" /></svg>Заблокировать</button></form>
+        <form class="ad-inline-form" data-msg="Готово: подписка удалена" data-confirm="Удалить подписку пользователя? VPN-пользователь будет удалён с сервера."><button type="submit" class="ad-btn ad-btn-sm ad-btn-danger"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>Удалить</button></form>
+      </div>
+      </li>
+      <li class="ad-user-row">
+        <div style="min-width:0">
+          <p class="ad-cell-title">nick.solo@proton.me </p>
+          <p class="ad-cell-meta">Нет подписки</p>
+        </div>
+
+      </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- ActionToast: в проде появляется из ?msg=; здесь — после «отправки» формы -->
+  <div class="ad-toast" id="toast" role="status" aria-live="polite" hidden>
+    <span class="ad-toast-icon"></span><span class="ad-toast-text"></span>
+  </div>
+
+  <!-- ConfirmButton: в проде window.confirm(); здесь стеклянная карточка -->
+  <div class="ad-confirm" id="confirm" role="dialog" aria-modal="true"
+       aria-labelledby="confirm-text" hidden>
+    <div class="ad-confirm-card">
+      <p class="ad-confirm-text" id="confirm-text"></p>
+      <div class="ad-confirm-actions">
+        <button type="button" class="ad-btn ad-btn-ghost" data-role="cancel">Отмена</button>
+        <button type="button" class="ad-btn ad-btn-primary" data-role="ok">Подтвердить</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/preview.js"></script>
+</body>
+</html>

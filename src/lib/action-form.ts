@@ -25,7 +25,13 @@ export function withFormId(
   };
 }
 
-/** Экшен без параметров (например, полный сброс). */
+/**
+ * Экшен без параметров (например, полный сброс).
+ *
+ * ВАЖНО: возвращает обычную функцию-обработчик, а НЕ серверный экшен. Её можно
+ * вызывать только из клиентского компонента (ConfirmButton) — обёртка принимает её
+ * как пропс `action`. Сам серверный экшен при этом не меняется.
+ */
 export function withVoidAction(action: () => ActionResult | Promise<ActionResult>, redirectTo: string): ActionFn {
   return async () => {
     finish(await action(), redirectTo);

@@ -1,20 +1,21 @@
 import { prisma } from "@/lib/db";
-import ConfirmButton from "@/components/ConfirmButton";
+import { VoidActionButton } from "@/components/admin/form-controls";
+import { IconCard, IconClock, IconRefresh, IconTrash, IconUsers } from "@/components/admin/icons";
+import {
+  EmptyState,
+  PageHeader,
+  Panel,
+  PanelHead,
+  StatCard,
+  StatusBadge,
+} from "@/components/admin/ui";
+import { formatDate, formatDateTime, formatMoney } from "@/lib/format";
 import { resetAllStats } from "./actions";
 
-function money(kopecks: number) {
-  return (kopecks / 100).toLocaleString("ru-RU") + " ₽";
-}
-
-function statusBadge(status: string) {
-  const map: Record<string, string> = {
-    SUCCEEDED: "bg-green-100 text-green-700",
-    PENDING: "bg-yellow-100 text-yellow-700",
-    CANCELED: "bg-red-100 text-red-700",
-  };
-  return map[status] || "bg-gray-100 text-gray-700";
-}
-
+/**
+ * Обзор: прежние запросы и прежняя логика — изменён только слой отображения.
+ * Семь запросов остаются в одном Promise.all (nextjs/parallel-fetching).
+ */
 export default async function AdminOverviewPage() {
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -43,74 +44,92 @@ export default async function AdminOverviewPage() {
       }),
     ]);
 
-  const cards = [
-    { label: "Выручка за всё время", value: money(allRevenue._sum.amount ?? 0) },
-    { label: "Выручка за месяц", value: money(monthRevenue._sum.amount ?? 0) },
-    { label: "Активные подписки", value: String(activeSubs) },
-    { label: "Пользователей", value: String(usersCount) },
-    { label: "Платежи в ожидании", value: String(pendingCount) },
-  ];
-
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Обзор</h1>
-        <ConfirmButton
-          action={resetAllStats}
-          confirmText="Сбросить ВСЮ статистику? Будут удалены все платежи и подписки, VPN-пользователи будут удалены с сервера."
-          className="bg-red-600 text-white px-4 py-2 rounded-md text-sm hover:bg-red-700"
-        >
-          🗑 Сбросить всю статистику
-        </ConfirmButton>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        {cards.map((c) => (
-          <div key={c.label} className="bg-white dark:bg-gray-900 rounded-xl border shadow-sm p-4">
-            <p className="text-xs text-gray-500 dark:text-gray-400">{c.label}</p>
-            <p className="text-xl font-bold mt-1">{c.value}</p>
-          </div>
-        ))}
+    <div className="ad-stack ad-fade">
+      <PageHeader
+        title="Обзор"
+        subtitle={`${formatDate(monthStart)} — начало отчётного месяца`}
+        actions={
+          // Danger zone: необратимая операция отделена от контента и подтверждается текстом.
+          <VoidActionButton
+            action={resetAllStats}
+            confirmText="Сбросить ВСЮ статистику? Будут удалены все платежи и подписки, VPN-пользователи будут удалены с сервера."
+            variant="ad-btn-danger"
+            size="md"
+            icon={<IconTrash size={15} />}
+            label="Сбросить всю статистику"
+          />
+        }
+      />
+
+      <div className="ad-grid-stats">
+        <StatCard label="Выручка за всё время" value={formatMoney(allRevenue._sum.amount ?? 0)} />
+        <StatCard label="Выручка за месяц" value={formatMoney(monthRevenue._sum.amount ?? 0)} />
+        <StatCard label="Активные подписки" value={String(activeSubs)} />
+        <StatCard label="Пользователей" value={String(usersCount)} />
+        <StatCard label="Платежи в ожидании" value={String(pendingCount)} alert={pendingCount > 0} />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-gray-900 rounded-xl border shadow-sm p-6">
-          <h2 className="font-semibold mb-4">⏳ Истекают в ближайшие 3 дня</h2>
+      <div className="ad-cols-2">
+        <Panel>
+          <PanelHead
+            title="Истекают в ближайшие 3 дня"
+            icon={<IconClock size={16} />}
+            hint="Активные подписки, которые скоро остановятся"
+          />
           {expiring.length === 0 ? (
-            <p className="text-sm text-gray-500 dark:text-gray-400">Нет таких подписок</p>
+            <EmptyState title="Нет истекающих подписок" text="В ближайшие три дня всё спокойно." />
           ) : (
-            <ul className="space-y-2 text-sm">
+            <ul className="ad-list">
               {expiring.map((s) => (
-                <li key={s.id} className="flex justify-between border-b pb-2">
-                  <span>{s.user.email}</span>
-                  <span className="text-red-600">
-                    {s.expiresAt?.toLocaleDateString("ru-RU")}
-                  </span>
+                <li key={s.id} className="ad-list-item">
+                  <span className="ad-cell-title">{s.user.email}</span>
+                  <time className="ad-num" dateTime={s.expiresAt?.toISOString()}>
+                    {formatDate(s.expiresAt)}
+                  </time>
                 </li>
               ))}
             </ul>
           )}
-        </div>
+        </Panel>
 
-        <div className="bg-white dark:bg-gray-900 rounded-xl border shadow-sm p-6">
-          <h2 className="font-semibold mb-4">💳 Последние платежи</h2>
-          <ul className="space-y-2 text-sm">
-            {recent.map((p) => (
-              <li key={p.id} className="flex justify-between items-center border-b pb-2">
-                <div>
-                  <p className="font-medium">{p.user.email}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{p.plan.name}</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-medium">{money(p.amount)}</p>
-                  <span className={`text-xs px-2 py-0.5 rounded-full ${statusBadge(p.status)}`}>
-                    {p.status}
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Panel>
+          <PanelHead
+            title="Последние платежи"
+            icon={<IconCard size={16} />}
+            hint="10 последних операций"
+          />
+          {recent.length === 0 ? (
+            <EmptyState
+              icon={<IconRefresh size={28} />}
+              title="Платежей пока нет"
+              text="Как только поступит первая оплата, она появится здесь."
+            />
+          ) : (
+            <ul className="ad-list">
+              {recent.map((p) => (
+                <li key={p.id} className="ad-list-item">
+                  <div style={{ minWidth: 0 }}>
+                    <p className="ad-cell-title">{p.user.email}</p>
+                    <p className="ad-cell-meta">
+                      {p.plan.name} · {formatDateTime(p.createdAt)}
+                    </p>
+                  </div>
+                  <div className="ad-actions" style={{ gap: 10 }}>
+                    <span className="ad-num">{formatMoney(p.amount)}</span>
+                    <StatusBadge status={p.status} />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
       </div>
+
+      <p className="ad-note">
+        <IconUsers size={16} />
+        Управление подписками — в разделе «Пользователи», выдача оплат — в разделе «Платежи».
+      </p>
     </div>
   );
 }

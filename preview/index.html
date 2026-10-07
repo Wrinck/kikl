@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light dark" />
+<title>Обзор — Админ-панель (liquid glass preview)</title>
+<link rel="stylesheet" href="assets/admin.css" />
+</head>
+<body>
+<div class="ad-root">
+  <header class="ad-header">
+    <div class="ad-header-in">
+      <div class="ad-header-start">
+        <a class="ad-brand" href="index.html">
+          <span class="ad-brand-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19a9 9 0 1 1 16 0" /><path d="M12 19l3.5-5.5" /><circle cx="12" cy="19" r="1" /></svg></span>
+          Админ-панель
+        </a>
+        <nav class="ad-nav" aria-label="Разделы админки">
+          <a class="ad-navlink is-active" href="index.html" aria-current="page">Обзор</a>
+          <a class="ad-navlink" href="plans.html">Тарифы</a>
+          <a class="ad-navlink" href="users.html">Пользователи</a>
+          <a class="ad-navlink" href="payments.html">Платежи</a>
+        </nav>
+      </div>
+      <div class="ad-header-end">
+        <button type="button" class="ad-btn ad-btn-icon ad-btn-sm theme-toggle"
+                aria-label="Включить тёмную тему" aria-pressed="false">
+          <span class="i-moon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" /></svg></span>
+          <span class="i-sun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6" /></svg></span>
+        </button>
+        <a class="ad-back" href="#"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5" /><path d="m11 6-6 6 6 6" /></svg>В кабинет</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="ad-main">
+    <div class="ad-stack ad-fade">
+      <div class="ad-row">
+        <div style="min-width:0">
+          <h1 class="ad-h1">Обзор</h1>
+          <p class="ad-sub">01.10.2026 — начало отчётного месяца</p>
+        </div>
+        <div class="ad-actions">
+<form class="ad-inline-form" data-msg="Готово: статистика сброшена" data-confirm="Сбросить ВСЮ статистику? Будут удалены все платежи и подписки, VPN-пользователи будут удалены с сервера."><button type="submit" class="ad-btn ad-btn-danger"><span class="ad-spin" aria-hidden="true"></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18" /><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /><path d="M10 11v6M14 11v6" /></svg>Сбросить всю статистику</button></form>
+        </div>
+      </div>
+
+      <div class="ad-grid-stats">
+      <div class="ad-panel ad-stat">
+        <p class="ad-stat-label">Выручка за всё время</p>
+        <p class="ad-stat-value">1 284 500 ₽</p>
+      </div>
+      <div class="ad-panel ad-stat">
+        <p class="ad-stat-label">Выручка за месяц</p>
+        <p class="ad-stat-value">247 300 ₽</p>
+      </div>
+      <div class="ad-panel ad-stat">
+        <p class="ad-stat-label">Активные подписки</p>
+        <p class="ad-stat-value">312</p>
+      </div>
+      <div class="ad-panel ad-stat">
+        <p class="ad-stat-label">Пользователей</p>
+        <p class="ad-stat-value">1 048</p>
+      </div>
+      <div class="ad-panel ad-stat ad-stat--alert">
+        <p class="ad-stat-label">Платежи в ожидании</p>
+        <p class="ad-stat-value">3</p>
+      </div>
+      </div>
+
+      <div class="ad-cols-2">
+        <section class="ad-panel">
+    <div class="ad-panel-head">
+      <div style="min-width:0">
+        <h2 class="ad-h2 ad-panel-head-t"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" /></svg>Истекают в ближайшие 3 дня</h2>
+        <p class="ad-sub">Активные подписки, которые скоро остановятся</p>
+      </div>
+    </div>
+          <ul class="ad-list">
+        <li class="ad-list-item"><p class="ad-cell-title">lena.kovaleva@gmail.com</p><time class="ad-num" datetime="2026-10-10">10 окт. 2026</time></li>
+        <li class="ad-list-item"><p class="ad-cell-title">artem.v@mail.ru</p><time class="ad-num" datetime="2026-10-10">10 окт. 2026</time></li>
+        <li class="ad-list-item"><p class="ad-cell-title">nikita.pro@yandex.ru</p><time class="ad-num" datetime="2026-10-11">11 окт. 2026</time></li>
+          </ul>
+        </section>
+
+        <section class="ad-panel">
+    <div class="ad-panel-head">
+      <div style="min-width:0">
+        <h2 class="ad-h2 ad-panel-head-t"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" /><path d="M2.5 10h19" /><path d="M6.5 15h3" /></svg>Последние платежи</h2>
+        <p class="ad-sub">10 последних операций</p>
+      </div>
+    </div>
+          <ul class="ad-list">
+        <li class="ad-list-item">
+          <div style="min-width:0"><p class="ad-cell-title">marina.t@icloud.com</p>
+            <p class="ad-cell-meta">3 Месяца / Безлимит · 8 окт. 2026, 19:42</p></div>
+          <div class="ad-actions" style="gap:10px"><span class="ad-num">1 499 ₽</span><span class="ad-badge ad-badge-good">Оплачен</span></div>
+        </li>
+        <li class="ad-list-item">
+          <div style="min-width:0"><p class="ad-cell-title">denis.kroha@list.ru</p>
+            <p class="ad-cell-meta">1 Месяц / 100 ГБ · 8 окт. 2026, 14:07</p></div>
+          <div class="ad-actions" style="gap:10px"><span class="ad-num">499 ₽</span><span class="ad-badge ad-badge-warn">Ожидает</span></div>
+        </li>
+        <li class="ad-list-item">
+          <div style="min-width:0"><p class="ad-cell-title">olga.mironova@gmail.com</p>
+            <p class="ad-cell-meta">6 Месяцев / Безлимит · 7 окт. 2026, 23:15</p></div>
+          <div class="ad-actions" style="gap:10px"><span class="ad-num">2 490 ₽</span><span class="ad-badge ad-badge-good">Оплачен</span></div>
+        </li>
+        <li class="ad-list-item">
+          <div style="min-width:0"><p class="ad-cell-title">vpn-test@proton.me</p>
+            <p class="ad-cell-meta">1 Месяц / 100 ГБ · 7 окт. 2026, 11:30</p></div>
+          <div class="ad-actions" style="gap:10px"><span class="ad-num">499 ₽</span><span class="ad-badge ad-badge-bad">Ошибка</span></div>
+        </li>
+        <li class="ad-list-item">
+          <div style="min-width:0"><p class="ad-cell-title">sergey.petrov@yandex.ru</p>
+            <p class="ad-cell-meta">3 Месяца / Безлимит · 6 окт. 2026, 20:58</p></div>
+          <div class="ad-actions" style="gap:10px"><span class="ad-num">1 499 ₽</span><span class="ad-badge ad-badge-good">Оплачен</span></div>
+        </li>
+          </ul>
+        </section>
+      </div>
+
+      <p class="ad-note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20" /><circle cx="9" cy="7.5" r="3.5" /><path d="M22 20v-1.5a4 4 0 0 0-3-3.85" /><path d="M16 4.15A3.5 3.5 0 0 1 16 11" /></svg>
+        Управление подписками — в разделе «Пользователи», выдача оплат — в разделе «Платежи».
+      </p>
+    </div>
+  </main>
+
+  <!-- ActionToast: в проде появляется из ?msg=; здесь — после «отправки» формы -->
+  <div class="ad-toast" id="toast" role="status" aria-live="polite" hidden>
+    <span class="ad-toast-icon"></span><span class="ad-toast-text"></span>
+  </div>
+
+  <!-- ConfirmButton: в проде window.confirm(); здесь стеклянная карточка -->
+  <div class="ad-confirm" id="confirm" role="dialog" aria-modal="true"
+       aria-labelledby="confirm-text" hidden>
+    <div class="ad-confirm-card">
+      <p class="ad-confirm-text" id="confirm-text"></p>
+      <div class="ad-confirm-actions">
+        <button type="button" class="ad-btn ad-btn-ghost" data-role="cancel">Отмена</button>
+        <button type="button" class="ad-btn ad-btn-primary" data-role="ok">Подтвердить</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="assets/preview.js"></script>
+</body>
+</html>

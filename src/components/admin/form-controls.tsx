@@ -8,21 +8,26 @@
  *
  * ConfirmButton сохраняет прежнее поведение: показывает window.confirm(confirmText)
  * и только затем вызывает исходный action. Отличия:
- *  - action вызывается как нативная submit-функция формы, а не из onClick
- *    (поэтому больше не нужен `action={fn.bind(null, id)}` — id передаётся скрытым полем);
+ *  - id действия передаётся скрытым полём формы вместо `fn.bind(null, id)`;
  *  - кнопка блокируется на время отправки (защита от двойного клика → дублей тарифов);
  *  - есть focus-visible / disabled состояния.
  */
 
-import { useEffect, useRef, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useFormStatus } from "react-dom";
 
 /** Экшены админки принимают FormData и возвращают `{ error?: string }`. */
 type ActionFn = (formData: FormData) => { error?: string } | void | Promise<{ error?: string } | void>;
 
+/**
+ * Клиентский «островок»: показывает confirm(), блокирует кнопку на время отправки
+ * и выводит ошибку экшена. Сам server action передаётся сверху пропсом `action`
+ * (в серверных компонентах это разрешено), поэтому логика мутаций не меняется.
+ */
 export function ConfirmButton({
   action,
   confirmText,
+  label,
   children,
   variant = "",
   size = "sm",
@@ -31,41 +36,35 @@ export function ConfirmButton({
 }: {
   action: ActionFn;
   confirmText: string;
-  children: React.ReactNode;
+  /** Текст на кнопке. */
+  label: React.ReactNode;
+  /** Служебное содержимое формы: скрытые поля id и т.п. */
+  children?: React.ReactNode;
   /** "" | "ad-btn-primary" | "ad-btn-danger" | "ad-btn-good" | "ad-btn-warn" | "ad-btn-ghost" */
   variant?: string;
   size?: "sm" | "md";
   icon?: React.ReactNode;
-  /** aria-label для кнопок без текста. */
+  /** aria-label / title для кнопок без текста. */
   title?: string;
 }) {
-  const formRef = useRef<HTMLFormElement>(null);
-  const actionRef = useRef<ActionFn | null>(null);
-  const [isPending, startTransition] = useTransition();
-
-  // Держим актуальную версию экшена в ref, чтобы обработчик submit не замыкался
-  // на устаревшей функции между рендерами.
-  useEffect(() => {
-    actionRef.current = action;
-  }, [action]);
+  const [pending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    // Без preventDefault форма ушла бы на GET /... и ничего бы не сделала.
     event.preventDefault();
-    const fn = actionRef.current;
-    if (!fn) return;
-
-    const data = new FormData(event.currentTarget);
     if (!window.confirm(confirmText)) return;
+
+    const formData = new FormData(event.currentTarget);
+    setError(null);
 
     startTransition(async () => {
       try {
-        const result = await fn(data);
-        if (result && typeof result === "object" && result.error) {
-          window.alert(result.error);
-        }
-      } catch (error) {
-        // Не глотаем ошибку — показываем её так же, как это делал бы alert в старом коде.
-        window.alert(error instanceof Error ? error.message : "Не удалось выполнить действие");
+        const result = await action(formData);
+        if (result && typeof result === "object" && result.error) setError(result.error);
+      } catch (err) {
+        // Не глотаем ошибку: показываем её так же, как alert в прежнем коде.
+        setError(err instanceof Error ? err.message : "Не удалось выполнить действие");
       }
     });
   }
@@ -73,13 +72,28 @@ export function ConfirmButton({
   const cls = ["ad-btn", size === "sm" ? "ad-btn-sm" : "", variant].filter(Boolean).join(" ");
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} style={{ display: "contents" }}>
-      {/* Скрытые поля (id тарифа/пользователя) добавляет родитель через children. */}
-      <button type="submit" className={cls} disabled={isPending} aria-label={title} aria-busy={isPending}>
-        {isPending ? <span className="ad-spin" aria-hidden /> : icon}
+    <>
+      <form onSubmit={handleSubmit} className="ad-inline-form">
+        {/* Скрытые поля (id тарифа/пользователя) приходят от родителя в children. */}
         {children}
-      </button>
-    </form>
+        <button
+          type="submit"
+          className={cls}
+          disabled={pending}
+          aria-label={title}
+          aria-busy={pending}
+          title={error ?? title}
+        >
+          {pending ? <span className="ad-spin" aria-hidden /> : icon}
+          {label}
+        </button>
+      </form>
+      {error ? (
+        <p className="ad-note ad-note-error" role="alert" style={{ marginTop: 8 }}>
+          {error}
+        </p>
+      ) : null}
+    </>
   );
 }
 
@@ -110,4 +124,48 @@ export function SubmitButton({
       {children}
     </button>
   );
+}
+
+/**
+ * Обёртка для вызова server action из серверного компонента.
+ *
+ * Почему это нужно: `"use server"` запрещает вызывать экшен напрямую — его можно
+ * только передать в форму (или в пропс клиентского компонента). Прежний код делал
+ * `action={fn.bind(null, id)}`, и bind() на серверном экшене — ошибка сборки.
+ * Здесь id уезжает скрытым полём формы, а обёртка живёт в "use client" острове.
+ */
+export function ActionButton({
+  action,
+  fieldName = "id",
+  fieldValue,
+  extraFields,
+  ...rest
+}: {
+  action: ActionFn;
+  /** Имя скрытого поля, из которого экшен читает id (planId / userId / paymentId). */
+  fieldName: string;
+  fieldValue: string | number;
+  /** Дополнительные скрытые поля, если экшен читает их из FormData. */
+  extraFields?: Record<string, string | number>;
+} & Omit<React.ComponentProps<typeof ConfirmButton>, "action" | "children">) {
+  return (
+    <ConfirmButton {...rest} action={action}>
+      <input type="hidden" name={fieldName} value={fieldValue} />
+      {Object.entries(extraFields ?? {}).map(([name, value]) => (
+        <input key={name} type="hidden" name={name} value={value} />
+      ))}
+    </ConfirmButton>
+  );
+}
+
+/**
+ * Кнопка-подтверждение для экшена без параметров (например, полный сброс статистики).
+ */
+export function VoidActionButton({
+  action,
+  ...rest
+}: Omit<React.ComponentProps<typeof ConfirmButton>, "action" | "children"> & {
+  action: ActionFn;
+}) {
+  return <ConfirmButton {...rest} action={action} />;
 }
