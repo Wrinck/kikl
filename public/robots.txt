@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /login
-Disallow: /register
-
-Sitemap: https://vpnshop.gerlio.qzz.io/sitemap.xml
