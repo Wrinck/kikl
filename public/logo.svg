@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 170">
+  <defs>
+    <linearGradient id="gb" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#1d3fb8"/>
+      <stop offset="1" stop-color="#7a2bd8"/>
+    </linearGradient>
+    <linearGradient id="gp" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4633c8"/>
+      <stop offset="1" stop-color="#8b2fd6"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(120,5)">
+    <path fill="url(#gb)" d="M106 10 C76 13 52 16 40 22 C27 29 22 40 28 49 C35 59 52 62 63 57 C71 53 77 46 80 38 C73 44 65 48 57 48 C47 48 39 42 39 34 C39 27 46 21 56 17 C70 12 88 11 106 10 Z"/>
+    <path fill="url(#gp)" d="M104 12 C80 18 62 24 56 30 C52 34 55 39 61 39 C70 39 82 30 104 12 Z"/>
+  </g>
+  <text x="180" y="150" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-style="italic" font-size="54" letter-spacing="5" fill="#23272c">GERLIO</text>
+</svg>
